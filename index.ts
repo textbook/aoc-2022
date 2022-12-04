@@ -10,4 +10,10 @@ const directory = `day${day.padStart(2, "0")}`;
 const { solution } = await import(join(__dirname, directory, "index.js"));
 const data = await readFile(join(__dirname, directory, "input.txt"), "utf8");
 
-console.log(solution(data.trim()));
+try {
+	const result = solution(data.trim());
+	console.log(result);
+} catch (err) {
+	console.error(err);
+	process.exit(1);
+}
