@@ -2,7 +2,7 @@ import { sum } from "../utils";
 
 import { Outcome, rps, Shape } from "./rps";
 
-export const solution = (input: string): number => {
+export const solution: Solution = (input: string): number => {
 	return sum(input.split("\n").map((round) => {
 		const [opponent, outcome] = round.split(" ").map(convert) as [Shape, Outcome];
 		for (const shape of [Shape.ROCK, Shape.PAPER, Shape.SCISSORS]) {

@@ -1,6 +1,6 @@
 import { sum } from "../utils";
 
-export const solution = (input: string): number => {
+export const solution: Solution = (input: string): number => {
 	const data = input
 		.split("\n\n")
 		.map((section) => section
