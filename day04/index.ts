@@ -3,12 +3,12 @@ export const solution: Solution = (input) => {
 		.split("\n")
 		.filter((pair) => {
 			const [first, second] = pair.split(",").map(Range.fromString);
-			return first.includes(second) || second.includes(first);
+			return first.overlaps(second);
 		})
 		.length;
 };
 
-class Range {
+export class Range {
 
 	static fromString(item: string) {
 		const [start, end] = item.split("-");
@@ -19,5 +19,14 @@ class Range {
 
 	includes(other: Range): boolean {
 		return (this.start <= other.start && this.end >= other.end);
+	}
+
+	overlaps(other: Range): boolean {
+		return (
+			this.includes(other)
+			|| other.includes(this)
+			|| (other.start <= this.start && this.start <= other.end)
+			|| (other.start <= this.end && this.end <= other.end)
+		);
 	}
 }
