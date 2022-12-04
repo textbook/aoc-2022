@@ -1,10 +1,8 @@
-import { intersection, sum } from "../utils";
+import { chunk, intersection, sum } from "../utils";
 
 export const solution: Solution = (input) => {
-	return sum(input.split("\n").map((rucksack) => {
-		const firstCompartment = rucksack.slice(0, rucksack.length / 2);
-		const secondCompartment = rucksack.slice(rucksack.length / 2);
-		const [shared] = intersection(firstCompartment, secondCompartment);
+	return sum(chunk(input.split("\n"), 3).map((rucksacks) => {
+		const [shared] = intersection(...rucksacks);
 		return priority(shared);
 	}));
 };
