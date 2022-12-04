@@ -1,6 +1,6 @@
 import { describe, expect, it } from "bun:test";
 
-import { solution } from "./day01";
+import { solution } from "./index";
 
 describe("day 01", () => {
 	it("works for a simple example", () => {
