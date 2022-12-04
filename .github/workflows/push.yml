@@ -1,0 +1,15 @@
+name: Run Bun.sh tests
+
+on:
+  - push
+
+jobs:
+  test:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v3
+      - uses: xhyrom/setup-bun@v0.1.8
+        with:
+          bun-version: latest
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+      - run: bun wiptest
