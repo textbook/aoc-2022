@@ -2,16 +2,22 @@ export const solution: Solution = (input) => {
 	return input
 		.split("\n")
 		.filter((pair) => {
-			const [first, second] = pair.split(",").map(range);
-			return (
-				(first[0] <= second[0] && first[1] >= second[1])
-				|| (second[0] <= first[0] && second[1] >= first[1])
-			);
+			const [first, second] = pair.split(",").map(Range.fromString);
+			return first.includes(second) || second.includes(first);
 		})
 		.length;
 };
 
-function range(item: string): [number, number] {
-	const [start, end] = item.split("-");
-	return [parseInt(start, 10), parseInt(end, 10)];
+class Range {
+
+	static fromString(item: string) {
+		const [start, end] = item.split("-");
+		return new Range(parseInt(start, 10), parseInt(end, 10))
+	}
+
+	constructor(readonly start: number, readonly end: number) {}
+
+	includes(other: Range): boolean {
+		return (this.start <= other.start && this.end >= other.end);
+	}
 }
