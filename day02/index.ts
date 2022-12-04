@@ -1,25 +1,34 @@
 import { sum } from "../utils";
 
-import { rps, Shape } from "./rps";
+import { Outcome, rps, Shape } from "./rps";
 
 export const solution = (input: string): number => {
 	return sum(input.split("\n").map((round) => {
-		const [opponent, you] = round.split(" ").map(convert);
-		return rps(opponent, you) + you;
+		const [opponent, outcome] = round.split(" ").map(convert) as [Shape, Outcome];
+		for (const shape of [Shape.ROCK, Shape.PAPER, Shape.SCISSORS]) {
+			if (rps(opponent, shape) === outcome) {
+				return shape + outcome;
+			}
+		}
 	}));
 };
 
-function convert(letter: string): Shape {
+function convert(letter: "A" | "B" | "C"): Shape;
+function convert(letter: "X" | "Y" | "Z"): Outcome;
+function convert(letter: string): Outcome | Shape {
 	switch(letter) {
 		case "A":
-		case "X":
 			return Shape.ROCK;
 		case "B":
-		case "Y":
 			return Shape.PAPER;
 		case "C":
-		case "Z":
 			return Shape.SCISSORS;
+		case "X":
+			return Outcome.LOSS;
+		case "Y":
+			return Outcome.DRAW;
+		case "Z":
+			return Outcome.WIN;
 		default:
 			throw new Error(`unrecognised letter: ${letter}`);
 	}
