@@ -1,10 +1,14 @@
+import { sum } from "../utils";
+
 export const solution = (input: string): number => {
 	const data = input
 		.split("\n\n")
-		.map((section: string): number[] => {
-			return section
-				.split("\n")
-				.map((line) => parseInt(line, 10));
-		});
-	return Math.max(...data.map((elf) => elf.reduce((a, b) => a + b, 0)));
+		.map((section) => section
+			.split("\n")
+			.map((line) => parseInt(line)));
+	return core(data);
+};
+
+const core = (values: number[][]): number => {
+	return sum(values.map(sum).sort((a, b) => b - a).slice(0, 3));
 };
