@@ -1,1 +1,1 @@
-type Solution = (input: string) => number;
+type Solution = (input: string) => number | string;

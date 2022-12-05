@@ -1,5 +1,6 @@
 export const solution: Solution = (input) => {
 	return input
+		.trim()
 		.split("\n")
 		.filter((pair) => {
 			const [first, second] = pair.split(",").map(Range.fromString);

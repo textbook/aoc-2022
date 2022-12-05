@@ -11,7 +11,7 @@ const { solution } = await import(join(__dirname, directory, "index.js"));
 const data = await readFile(join(__dirname, directory, "input.txt"), "utf8");
 
 try {
-	const result = solution(data.trim());
+	const result = solution(data);
 	console.log(result);
 } catch (err) {
 	console.error(err);
