@@ -8,9 +8,7 @@ export const solution: Solution = (input): string => {
 	const [stacks, moves] = parser(input);
 
 	for (const { count, destination, source } of moves) {
-		for (let i = 0; i < count; i++) {
-			stacks[destination].push(stacks[source].pop());
-		}
+		stacks[destination].push(...stacks[source].splice(stacks[source].length - count, count));
 	}
 
 	return stacks.slice(1).map((stack) => stack[stack.length - 1]).join("");
@@ -20,7 +18,7 @@ export const parser = (input: string): [string[][], Move[]] => {
 	const [crates, moves] = input.split("\n\n");
 	return [
 		createStacks(crates),
-		moves.split("\n").map((move) => {
+		moves.trim().split("\n").map((move) => {
 			const words = move.split(" ");
 			return {
 				count: parseInt(words[1], 10),
