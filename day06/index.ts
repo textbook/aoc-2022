@@ -1,7 +1,7 @@
-export const solution: Solution = (input: string): number => {
-	for (let start = 0; start < input.length - 4; start++) {
-		if (new Set(input.slice(start, start + 4)).size === 4) {
-			return start + 4;
+export const solution: Solution = (input: string, windowLength = 14): number => {
+	for (let start = 0; start < input.length - windowLength; start++) {
+		if (new Set(input.slice(start, start + windowLength)).size === windowLength) {
+			return start + windowLength;
 		}
 	}
 };
