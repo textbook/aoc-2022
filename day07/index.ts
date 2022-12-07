@@ -1,13 +1,15 @@
-import { sum } from "../utils";
-
 interface Directory {
 	[key: string]: Directory | number;
 }
 
+const DISK_SIZE = 70_000_000;
+const UPDATE_SIZE = 30_000_000;
+
 export const solution: Solution = (input: string): number => {
 	const tree = parser(input);
 	const sizes = getSizes(tree, {});
-	return sum(Object.values(sizes).filter((size) => size <= 100_000));
+	const toDelete = UPDATE_SIZE - (DISK_SIZE - sizes["/"]);
+	return Object.values(sizes).sort((a, b) => a - b).find((size) => size >= toDelete);
 };
 
 const getSizes = (dir: Directory, sizes: Record<string, number>, path = ""): Record<string, number> => {

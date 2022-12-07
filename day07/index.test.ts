@@ -5,7 +5,7 @@ import { parser, solution } from "./index";
 
 describe("day 07", () => {
 	it("works for a simple example", () => {
-		expect(solution(simpleExample)).to.equal(95_437);
+		expect(solution(simpleExample)).to.equal(24_933_642);
 	});
 
 	describe("parser", () => {
