@@ -1,27 +1,26 @@
-import { describe, it } from "bun:test";
-import { expect } from "chai";
+import { describe, expect, it } from "bun:test";
 
 import { parser, solution } from "./index";
 
 describe("day 07", () => {
 	it("works for a simple example", () => {
-		expect(solution(simpleExample)).to.equal(24_933_642);
+		expect(solution(simpleExample)).toBe(24_933_642);
 	});
 
 	describe("parser", () => {
 		it("creates a simple file tree", () => {
 			expect(parser("$ cd /\n$ls\ndir a\n123 b.txt"))
-				.to.deep.equal({ "a": {}, "b.txt": 123 });
+				.toStrictEqual({ "a": {}, "b.txt": 123 });
 		});
 
 		it("can move down the file system", () => {
 			expect(parser("$ cd /\n$ ls\ndir a\n$ cd a\n$ ls\n123 b.txt"))
-				.to.deep.equal({ a: { "b.txt": 123 } });
+				.toStrictEqual({ a: { "b.txt": 123 } });
 		});
 
 		it("can move up the file system", () => {
 			expect(parser("$ cd /\n$ ls\ndir a\n$ cd a\n$ cd ..\n$ ls\n123 b.txt"))
-				.to.deep.equal({ a: {}, "b.txt": 123 });
+				.toStrictEqual({ a: {}, "b.txt": 123 });
 		});
 	});
 });

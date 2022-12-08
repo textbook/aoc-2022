@@ -1,11 +1,10 @@
-import { describe, it } from "bun:test";
-import { expect } from "chai";
+import { describe, expect, it } from "bun:test";
 
 import { solution } from "./index";
 
 describe("day 08", () => {
 	it("works for a simple example", () => {
-		expect(solution(simpleExample)).to.equal(8);
+		expect(solution(simpleExample)).toBe(8);
 	});
 });
 
