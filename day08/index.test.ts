@@ -5,7 +5,7 @@ import { solution } from "./index";
 
 describe("day 08", () => {
 	it("works for a simple example", () => {
-		expect(solution(simpleExample)).to.equal(21);
+		expect(solution(simpleExample)).to.equal(8);
 	});
 });
 

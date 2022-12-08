@@ -7,63 +7,45 @@ export const solution: Solution = (input: string): number => {
 			.split("")
 			.map((tree) => parseInt(tree, 10)));
 
-	return visibleTrees(forest).size;
+	return Math.max(...scenicScores(forest));
 };
-const visibleTrees = (forest: number[][]): Set<string> => {
-	const visible = new Set<string>();
-	let highest: number;
-	for (let y = 0; y < forest.length; y++) {
-		const row = forest.at(y);
 
-		highest = -1;
-		for (let x = 0; x < row.length; x++) {
-			const tree = row.at(x);
-			if (tree > highest) {
-				visible.add(`${x},${y}`);
-				highest = tree;
-				if (tree === 9) {
-					break;
-				}
-			}
-		}
+const scenicScores = (forest: number[][]): number[] => forest
+	.flatMap((row, y) => row
+		.map((tree, x) => scenicScore(forest, tree, [x, y])));
 
-		highest = -1;
-		for (let dx = -1; dx > -1 - row.length; dx--) {
-			const tree = row.at(dx);
-			if (tree > highest) {
-				visible.add(`${row.length + dx},${y}`);
-				highest = tree;
-				if (tree === 9) {
-					break;
-				}
-			}
+const scenicScore = (forest: number[][], tree: number, [x, y]: [number, number]): number => {
+	let left = 0;
+	for (let dx = -1; x + dx >= 0; dx--) {
+		left += 1;
+		if (forest[y][x + dx] >= tree) {
+			break;
 		}
 	}
 
-	for (let x = 0; x < forest[0].length; x++) {
-		highest = -1;
-		for (let y = 0; y < forest.length; y++) {
-			const tree = forest.at(y).at(x);
-			if (tree > highest) {
-				visible.add(`${x},${y}`);
-				highest = tree;
-				if (tree === 9) {
-					break;
-				}
-			}
-		}
-
-		highest = -1;
-		for (let dy = -1; dy > -1 - forest.length; dy--) {
-			const tree = forest.at(dy).at(x);
-			if (tree > highest) {
-				visible.add(`${x},${forest[0].length + dy}`);
-				highest = tree;
-				if (tree === 9) {
-					break;
-				}
-			}
+	let right = 0;
+	for (let dx = 1; x + dx < forest[y].length; dx++) {
+		right += 1;
+		if (forest[y][x + dx] >= tree) {
+			break;
 		}
 	}
-	return visible;
+
+	let up = 0;
+	for (let dy = -1; y + dy >= 0; dy--) {
+		up += 1;
+		if (forest[y + dy][x] >= tree) {
+			break;
+		}
+	}
+
+	let down = 0;
+	for (let dy = 1; y + dy < forest.length; dy++) {
+		down += 1;
+		if (forest[y + dy][x] >= tree) {
+			break;
+		}
+	}
+
+	return up * down * left * right;
 };
