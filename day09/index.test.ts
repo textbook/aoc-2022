@@ -4,7 +4,11 @@ import { solution } from "./index";
 
 describe("day 09", () => {
 	it("works for a simple example", () => {
-		expect(solution(simpleExample)).toBe(13);
+		expect(solution(simpleExample)).toBe(1);
+	});
+
+	it("works for a larger example", () => {
+		expect(solution(largerExample)).toBe(36);
 	});
 });
 
@@ -17,4 +21,15 @@ R 4
 D 1
 L 5
 R 2
+`.trim();
+
+const largerExample = `
+R 5
+U 8
+L 8
+D 3
+R 17
+D 10
+L 25
+U 20
 `.trim();
