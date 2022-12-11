@@ -4,7 +4,7 @@ import { parser, solution } from "./index";
 
 describe("day 11", () => {
 	it("works for a simple example", () => {
-		expect(solution(simpleExample)).toBe(10_605);
+		expect(solution(simpleExample)).toBe(2_713_310_158);
 	});
 
 	describe("parser", () => {
@@ -18,10 +18,11 @@ describe("day 11", () => {
 				"    If false: throw to monkey 3",
 			].join("\n"));
 			expect(monkey.hasItems).toBe(true);
+			expect(monkey.divisor).toBe(2);
 			monkey.catchValue(20);
-			expect(monkey.throwValue()).toStrictEqual({ value: 0, destination: 4 });
-			expect(monkey.throwValue()).toStrictEqual({ value: 1, destination: 3 });
-			expect(monkey.throwValue()).toStrictEqual({ value: 7, destination: 3 });
+			expect(monkey.throwValue()).toStrictEqual({ value: 2, destination: 4 });
+			expect(monkey.throwValue()).toStrictEqual({ value: 3, destination: 3 });
+			expect(monkey.throwValue()).toStrictEqual({ value: 21, destination: 3 });
 			expect(monkey.hasItems).toBe(false);
 			expect(monkey.itemsInspected).toBe(3);
 		});

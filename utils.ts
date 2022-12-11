@@ -13,6 +13,10 @@ export function intersection(...values: string[]): string[] {
 	return [...new Set(first)].filter((item) => rest.every((set) => set.has(item)));
 }
 
+export function product(values: number[]): number {
+	return values.reduce((x: number, y: number): number => x * y, 1);
+}
+
 export function sum(values: number[]): number {
 	return values.reduce((x: number, y: number): number => x + y, 0);
 }

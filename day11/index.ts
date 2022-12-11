@@ -1,3 +1,5 @@
+import { product } from "../utils";
+
 class Monkey {
 	private holding: number[];
 	private inspected = 0;
@@ -6,12 +8,17 @@ class Monkey {
 		startingItems: number[],
 		private inspect: (value: number) => number,
 		private evaluate: (value: number) => number,
+		private _divisor: number,
 	) {
 		this.holding = startingItems;
 	}
 
 	catchValue(value: number): void {
 		this.holding.push(value);
+	}
+
+	get divisor(): number {
+		return this._divisor;
 	}
 
 	get hasItems(): boolean {
@@ -23,7 +30,7 @@ class Monkey {
 	}
 
 	throwValue(): { value: number, destination: number } {
-		const value = Math.floor(this.inspect(this.holding.shift()) / 3);
+		const value = this.inspect(this.holding.shift());
 		const destination = this.evaluate(value);
 		this.inspected += 1;
 		return { destination, value };
@@ -32,18 +39,21 @@ class Monkey {
 
 export const solution: Solution = (input: string): number => {
 	const monkeys = parser(input.trim());
-	for (let _ = 0; _ < 20; _++) {
+	const productOfDivisors = product(monkeys.map((monkey) => monkey.divisor));
+
+	for (let _ = 0; _ < 10_000; _++) {
 		monkeys.forEach((monkey) => {
 			while (monkey.hasItems) {
 				const { destination, value } = monkey.throwValue();
-				monkeys[destination].catchValue(value);
+				monkeys[destination].catchValue(value % productOfDivisors);
 			}
 		});
 	}
-	const [first, second] = monkeys
+
+	return product(monkeys
 		.map((monkey) => monkey.itemsInspected)
-		.sort((a, b) => b - a);
-	return first * second;
+		.sort((a, b) => b - a)
+		.slice(0, 2));
 };
 
 export const parser = (input: string): Monkey[] => input
@@ -51,14 +61,16 @@ export const parser = (input: string): Monkey[] => input
 	.map((monkey): Monkey => {
 		const [, items, operation, evaluation, trueDest, falseDest] = monkey.split("\n");
 		const [op, right] = operation.slice(23).split(" ");
+		const divisor = parseInt(evaluation.slice(21), 10);
 		return new Monkey(
 			items.slice(18).split(", ").map((value) => parseInt(value, 10)),
 			makeInspection(op, right),
 			makeEvaluation(
-				parseInt(evaluation.slice(21), 10),
+				divisor,
 				parseInt(trueDest.slice(29), 10),
 				parseInt(falseDest.slice(30), 10),
-			)
+			),
+			divisor,
 		);
 	});
 
