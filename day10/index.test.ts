@@ -4,14 +4,15 @@ import { solution } from "./index";
 
 describe("day 10", () => {
 	it("works for a simple example", () => {
-		expect(solution(simpleExample)).toStrictEqual([
+		const result = solution(simpleExample) as string;
+		expect(result.split("\n")).toStrictEqual([
 			"##..##..##..##..##..##..##..##..##..##..",
 			"###...###...###...###...###...###...###.",
 			"####....####....####....####....####....",
 			"#####.....#####.....#####.....#####.....",
 			"######......######......######......####",
 			"#######.......#######.......#######.....",
-		].join("\n"));
+		]);
 	});
 });
 
