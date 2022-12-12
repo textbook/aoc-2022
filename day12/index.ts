@@ -3,12 +3,17 @@ type Position = [number, number];
 
 export const solution: Solution = (input: string): number => {
 	const { start, end, terrain } = parser(input);
-	const path = findPath(terrain, start, end);
+	const elevation = terrain[start[1]][start[0]];
+	const starts = terrain
+		.flatMap((row, y) => row
+			.map((cell, x): Position => [x, y])
+			.filter(([x, y]) => terrain[y][x] === elevation));
+	const path = findPath(terrain, starts, end);
 	return path.length - 1;
 };
 
-const findPath = (terrain: Terrain, from: Position, to: Position): string[] => {
-	let paths: string[][] = [[from.toString()]];
+const findPath = (terrain: Terrain, starts: Position[], end: Position): string[] => {
+	let paths: string[][] = starts.map((start) => [start.toString()]);
 	while (true) {
 		paths = paths
 			.flatMap((path) => validMoves(fromString(path.at(-1)), terrain)
@@ -18,7 +23,7 @@ const findPath = (terrain: Terrain, from: Position, to: Position): string[] => {
 		paths = Object.values(Object.fromEntries(paths.map((path) => [path.at(-1), path])));
 		for (const path of paths) {
 			const [x, y] = fromString(path.at(-1));
-			if (x === to[0] && y === to[1]) {
+			if (x === end[0] && y === end[1]) {
 				return path;
 			}
 		}
