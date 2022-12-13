@@ -39,13 +39,7 @@ const MOVES = [[0, 1], [0, -1], [1, 0], [-1, 0]];
 
 const validMoves = ([x, y]: Position, terrain: Terrain): Position[] => MOVES
 	.map(([dx, dy]): Position => [x + dx, y + dy])
-	.filter(([new_x, new_y]) => {
-		return new_x >= 0
-			&& new_x < terrain[0].length
-			&& new_y >= 0
-			&& new_y < terrain.length
-			&& terrain[new_y][new_x] <= (terrain[y][x] + 1);
-	});
+	.filter(([new_x, new_y]) => terrain?.[new_y]?.[new_x] <= (terrain[y][x] + 1));
 
 const a = "a".charCodeAt(0);
 
