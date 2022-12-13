@@ -4,7 +4,7 @@ import { solution, valid } from "./index";
 
 describe("day 13", () => {
 	it("works for a simple example", () => {
-		expect(solution(simpleExample)).toBe(13);
+		expect(solution(simpleExample)).toBe(140);
 	});
 
 	describe("valid", () => {

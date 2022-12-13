@@ -1,19 +1,31 @@
-import { sum } from "../utils";
+import { product } from "../utils";
 
 type Packet = Array<number | Packet>;
 
+const DIVIDERS = ["[[2]]", "[[6]]"]
+
 export const solution: Solution = (input: string): number => {
-	const validIndices = input
+	const packets: Packet[] = input
 		.trim()
 		.split("\n\n")
-		.map((pair): [Packet, Packet] => {
+		.flatMap((pair): [Packet, Packet] => {
 			const [left, right] = pair.split("\n");
 			return [JSON.parse(left), JSON.parse(right)];
-		})
-		.map(([left, right], index) => {
-			return valid(left, right) !== false ? index + 1 : 0;
 		});
-	return sum(validIndices);
+	packets.push(...DIVIDERS.map((packet): Packet => JSON.parse(packet)));
+	packets.sort((left, right): -1 | 0 | 1 => {
+		switch (valid(left, right)) {
+			case true:
+				return -1;
+			case false:
+				return 1;
+			default:
+				return 0;
+		}
+	});
+	return product(packets.map((packet, index) => {
+		return DIVIDERS.includes(JSON.stringify(packet)) ? index + 1 : 1;
+	}));
 };
 
 export const valid = (left: Packet | number, right: Packet | number): boolean | null => {
