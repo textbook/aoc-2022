@@ -9,16 +9,17 @@ export const solution: Solution = (input: string): number => {
 	settling: while (true) {
 		let [x, y]: [number, number] = [500, 0];
 		while (true) {
-			const validMove = MOVES.find(([dx, dy]) => !occupiedTiles.has([x + dx, y + dy].toString()));
+			const validMove = MOVES.find(([dx, dy]) => y + dy < lastRow + 2
+				&& !occupiedTiles.has([x + dx, y + dy].toString()));
 			if (!validMove) {
 				occupiedTiles.add([x, y].toString());
+				if (x === 500 && y === 0) {
+					break settling;
+				}
 				break;
 			}
 			const [dx, dy] = validMove;
 			[x, y] = [x + dx, y + dy];
-			if (y === lastRow) {
-				break settling;
-			}
 		}
 	}
 	return occupiedTiles.size - rockTiles;
