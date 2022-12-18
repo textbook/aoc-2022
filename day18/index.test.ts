@@ -8,7 +8,7 @@ describe("day 18", () => {
 	});
 
 	it("works for a simple example", () => {
-		expect(solution(simpleExample)).toBe(64);
+		expect(solution(simpleExample)).toBe(58);
 	});
 });
 
